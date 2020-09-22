@@ -1,17 +1,3 @@
-/*
-Na przykład taka tablica A:
-  A[0] = 3
-  A[1] = 1
-  A[2] = 2
-  A[3] = 4
-  A[4] = 3
-może być rozdzielona w czterech punktach w następujący sposób:
-P = 1, różnica = |3 − 10| = 7
-P = 2, różnica = |4 − 9| = 5
-P = 3, różnica = |6 − 7| = 1
-P = 4, różnica = |10 − 3| = 7
-*/
-
 #include <iostream>
 #include <cmath>
 
