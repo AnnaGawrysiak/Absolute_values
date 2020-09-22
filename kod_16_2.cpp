@@ -1,76 +1,83 @@
+/*
+Na przykład taka tablica A:
+  A[0] = 3
+  A[1] = 1
+  A[2] = 2
+  A[3] = 4
+  A[4] = 3
+może być rozdzielona w czterech punktach w następujący sposób:
+P = 1, różnica = |3 − 10| = 7
+P = 2, różnica = |4 − 9| = 5
+P = 3, różnica = |6 − 7| = 1
+P = 4, różnica = |10 − 3| = 7
+*/
+
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 
-int najmniejsza(int arr[], int const dimension);
+int minimum_value(int arr[], int const dimension);
 
 int main()
 {
-    int const rozmiar = 5;
+    int const size = 5;
 
-    int arr[rozmiar] = {3, 1, 2, 4, 3};
+    int arr[size] = {3, 1, 2, 4, 3};
 
-    cout << "Minimalna roznica, jaka mozna uzyskac: " << najmniejsza(arr, rozmiar) << endl;
+    cout << "Minimum difference that can be obtained: " << minimum_value(arr, size) << endl;
 
     return 0;
 }
 
-int najmniejsza(int arr[], int const dimension)
+int minimum_value(int arr[], int const dimension)
 {
-    int tab[dimension];
-    int tab2[dimension];
+    int left_range[dimension-1];
+    int right_subset[dimension-1];
 
-    int pierwsza_czesc = 0;
-    int pozostala_czesc = 0;
+    int initial_part = 0;
+    int second_part = 0;
 
-    int j = 5;
-
-    for (int i = 0; i < dimension; i++)
+    for (int i = 0; i < (dimension-1); i++)
     {
-        pierwsza_czesc = pierwsza_czesc + arr[i];
-        tab[i] = pierwsza_czesc;
+        initial_part = initial_part + arr[i];
+        left_range[i] = initial_part;
     }
 
-
-    int m = 0;
 
     for (int j = 1; j < dimension; j++)
        {
 
            for (int k = j; k < dimension; k++)
            {
-                pozostala_czesc = pozostala_czesc + arr[k];
+                second_part = second_part + arr[k];
            }
 
-         tab2[m] = pozostala_czesc;
-         m++;
-         pozostala_czesc = 0;
+         right_subset[j-1] = second_part;
+         second_part = 0;
        }
 
-    int wartosci_bezwzgledne[dimension];
+    int absolute_values[dimension-1];
 
 
-    for (int p = 0; p < dimension; p++)
+    for (int p = 0; p < (dimension-1); p++)
     {
-        if (tab[p] - tab2[p] > 0)
-            wartosci_bezwzgledne[p] = tab[p] - tab2[p];
-
-        else
-            wartosci_bezwzgledne[p] = tab2[p] - tab[p];
+            absolute_values[p] = abs(right_subset[p] - left_range[p]);
     }
 
-    for (int i = 0; i < dimension; i++)
+
+    for (int i = 0; i < (dimension-1); i++)
     {
-       cout << "wartosci bezwzgledne: " << wartosci_bezwzgledne[i] << endl;
+       cout << "Absolute values: " << absolute_values[i] << endl;
     }
 
-    int najmniejsza_wartosc = wartosci_bezwzgledne[0];
+    int the_lowest_value = absolute_values[0];
 
-    for (int l = 0; l < dimension; l++)
+    for (int l = 0; l < (dimension-2); l++)
     {
-        if (wartosci_bezwzgledne[l] > wartosci_bezwzgledne[l+1])
-            najmniejsza_wartosc = wartosci_bezwzgledne[l+1];
+        if (absolute_values[l] > absolute_values[l+1])
+            the_lowest_value = absolute_values[l+1];
     }
 
-    return najmniejsza_wartosc;
+    return the_lowest_value;
 }
